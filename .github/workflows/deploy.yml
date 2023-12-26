@@ -95,17 +95,13 @@ jobs:
           echo "Step 2: Check Docker Container Logs"
           docker logs $CONTAINER_ID
 
-          echo "Step 3: Check Application Configuration"
-          # Add commands to inspect application configuration inside the container
-          docker exec $CONTAINER_ID cat /path/to/your/application/config/file
-
-          echo "Step 4: Try a Different Port"
+          echo "Step 3: Try a Different Port"
           docker run -p 8082:80 ghcr.io/singhisking100/hello-world:latest
 
-          echo "Step 5: Use a Health Check or Test Endpoint"
+          echo "Step 4: Use a Health Check or Test Endpoint"
           curl http://localhost:8081/health
 
-          echo "Step 6: Restart Docker Container"
+          echo "Step 5: Restart Docker Container"
           docker stop $CONTAINER_ID
           docker start $CONTAINER_ID
           
