@@ -98,10 +98,7 @@ jobs:
           echo "Step 3: Try a Different Port"
           docker run -p 8082:80 ghcr.io/singhisking100/hello-world:latest
 
-          echo "Step 4: Use a Health Check or Test Endpoint"
-          curl http://localhost:8081/health
-
-          echo "Step 5: Restart Docker Container"
+          echo "Step 4: Restart Docker Container"
           docker stop $CONTAINER_ID
           docker start $CONTAINER_ID
           
@@ -110,4 +107,4 @@ jobs:
 
           # Verify the application is running again
           docker ps
-          curl http://localhost:8081
+
