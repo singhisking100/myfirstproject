@@ -23,8 +23,7 @@ jobs:
         run: docker build -t ghcr.io/singhisking100/hello-world .
 
       - name: Log in to GitHub Container Registry
-Run docker pull ghcr.io/singhisking100/hello-world:latest
-  docker pull ghcr.io/singhisking100/hello-world:latest
+        run: docker pull ghcr.io/singhisking100/hello-world:latest
   shell: /usr/bin/bash -e {0}
 Error response from daemon: denied
 Error: Process completed with exit code 1.
