@@ -31,6 +31,9 @@ jobs:
       - name: Set up Docker
         run: |
           sudo apt-get update
+          sudo apt-get remove docker docker-engine docker.io containerd runc
+          sudo apt-get purge docker-ce docker-ce-cli containerd.io
+          sudo rm -rf /var/lib/docker
           sudo apt-get install docker.io
           sudo service docker start
           sudo docker info
