@@ -52,10 +52,11 @@ jobs:
       - name: Read and Increment Version
         id: version
         run: |
-          current_version=$(cat VERSION)
+          current_version=$(cat ${{ github.workspace }}/VERSION)
           new_version=$(python -c "version = '$current_version'.split('.'); version[-1] = str(int(version[-1]) + 1); print('.'.join(version))")
-          echo $new_version > VERSION
+          echo $new_version > ${{ github.workspace }}/VERSION
           echo ::set-output name=version::$new_version
+
 
       - name: Build Docker Image
         run: |
