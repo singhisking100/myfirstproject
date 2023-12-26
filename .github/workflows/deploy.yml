@@ -1,3 +1,24 @@
+# name: Run Local Check
+
+# on:
+#   workflow_dispatch: # Manually triggered workflow
+
+# jobs:
+#   run-local:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Log in to GitHub Container Registry
+#         run: echo ${{ secrets.PAC_GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+#       - name: Pull Latest Docker Image
+#         # run: docker pull ghcr.io/${{ github.repository_owner }}/hello-world:latest
+#         run: docker pull ghcr.io/singhisking100/hello-world:latest
+
+#       - name: Run Docker Container Locally
+#         run: docker run -p 8080:80 ghcr.io/${{ github.repository_owner }}/hello-world:latest
+
+
 name: Run Local Check
 
 on:
@@ -8,12 +29,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+        with:
+          docker-version: '20.10.8' # Use the version that is compatible with your setup
+
       - name: Log in to GitHub Container Registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+        run: echo ${{ secrets.PAC_GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
       - name: Pull Latest Docker Image
-        # run: docker pull ghcr.io/${{ github.repository_owner }}/hello-world:latest
         run: docker pull ghcr.io/singhisking100/hello-world:latest
 
       - name: Run Docker Container Locally
-        run: docker run -p 8080:80 ghcr.io/${{ github.repository_owner }}/hello-world:latest
+        run: docker run -p 8080:80 ghcr.io/singhisking100/hello-world:latest
+
