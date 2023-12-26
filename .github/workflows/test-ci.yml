@@ -1,34 +1,4 @@
 
-# name: Build and Deploy
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout Repository
-#         uses: actions/checkout@v2
-
-#       - name: Set up Python
-#         uses: actions/setup-python@v2
-#         with:
-#           python-version: 3.9
-
-#       - name: Build Docker Image
-#         run: docker build -t ghcr.io/singhisking100/hello-world .
-
-#       - name: Log in to GitHub Container Registry
-#         run: echo ${{ secrets.PAC_GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-
-#       - name: Push Docker Image to GHCR
-#         run: docker push ghcr.io/singhisking100/hello-world
-
-
 name: Build and Deploy
 
 on:
@@ -49,28 +19,13 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Read and Increment Version
-        id: version
-        run: |
-          current_version=$(cat ${{ github.workspace }}/VERSION)
-          new_version=$(python -c "version = '$current_version'.split('.'); version[-1] = str(int(version[-1]) + 1); print('.'.join(version))")
-          echo $new_version > ${{ github.workspace }}/VERSION
-          echo ::set-output name=version::$new_version
-
-
       - name: Build Docker Image
-        run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/hello-world:${{ steps.version.outputs.version }} .
-          docker tag ghcr.io/${{ github.repository_owner }}/hello-world:${{ steps.version.outputs.version }} ghcr.io/${{ github.repository_owner }}/hello-world:latest
+        run: docker build -t ghcr.io/singhisking100/hello-world .
 
       - name: Log in to GitHub Container Registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+        run: echo ${{ secrets.PAC_GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
       - name: Push Docker Image to GHCR
-        run: |
-          docker push ghcr.io/${{ github.repository_owner }}/hello-world:${{ steps.version.outputs.version }}
-          docker push ghcr.io/${{ github.repository_owner }}/hello-world:latest
-
-
+        run: docker push ghcr.io/singhisking100/hello-world
 
 
