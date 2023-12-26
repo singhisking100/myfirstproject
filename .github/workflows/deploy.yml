@@ -1,37 +1,3 @@
-
-
-# name: Run Local Check
-
-# on:
-#   workflow_dispatch: # Manually triggered workflow
-
-# jobs:
-#   run-local:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Set up Docker
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get remove docker docker-engine docker.io containerd runc
-#           sudo apt-get purge docker-ce docker-ce-cli containerd.io
-#           sudo rm -rf /var/lib/docker
-#           sudo apt-get install docker.io
-#           sudo service docker start
-#           sudo docker info
-
-#       - name: Log in to GitHub Container Registry
-#         run: echo ${{ secrets.PAC_GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-
-#       - name: Pull Latest Docker Image
-#         run: docker pull ghcr.io/singhisking100/hello-world:latest
-
-#       - name: Run Docker Container Locally
-#         docker ps
-#         run: docker run -p 8081:80 ghcr.io/singhisking100/hello-world:latest
-
-
-
 name: Run Local Check
 
 on:
@@ -60,14 +26,14 @@ jobs:
 
       - name: Run Docker Container Locally
         run: |
-          docker run -p 8081:80 ghcr.io/singhisking100/hello-world:latest
+          CONTAINER_ID=$(docker run -d -p 8081:80 ghcr.io/singhisking100/hello-world:latest)
 
           # Troubleshooting steps
           echo "Step 1: Check Container Status"
           docker ps
 
           echo "Step 2: Check Docker Container Logs"
-          docker logs $(docker ps -q --filter ancestor=ghcr.io/singhisking100/hello-world:latest)
+          docker logs $CONTAINER_ID
 
           echo "Step 3: Check Application Configuration"
           # Add commands to inspect application configuration inside the container
@@ -79,8 +45,8 @@ jobs:
           curl http://localhost:8081/health
 
           echo "Step 6: Restart Docker Container"
-          docker stop $(docker ps -q --filter ancestor=ghcr.io/singhisking100/hello-world:latest)
-          docker start $(docker ps -q --filter ancestor=ghcr.io/singhisking100/hello-world:latest)
+          docker stop $CONTAINER_ID
+          docker start $CONTAINER_ID
           
           # You may need to wait for the container to fully start before executing further commands.
           sleep 5
@@ -88,8 +54,3 @@ jobs:
           # Verify the application is running again
           docker ps
           curl http://localhost:8081
-
-
-        
-
-
