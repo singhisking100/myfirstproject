@@ -1,35 +1,4 @@
 
-# name: Build and Deploy
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout Repository
-#         uses: actions/checkout@v2
-
-#       - name: Set up Python
-#         uses: actions/setup-python@v2
-#         with:
-#           python-version: 3.9
-
-#       - name: Build Docker Image
-#         run: docker build -t ghcr.io/singhisking100/hello-world .
-
-#       - name: Log in to GitHub Container Registry
-#         run: echo ${{ secrets.PAC_GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-
-#       - name: Push Docker Image to GHCR
-#         run: docker push ghcr.io/singhisking100/hello-world
-
-
-
 name: Build and Deploy
 
 on:
@@ -50,20 +19,16 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Generate Timestamp
-        id: timestamp
-        run: echo "::set-output name=timestamp::$(date +%Y%m%d%H%M%S)"
-
       - name: Build Docker Image
-        run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/hello-world:${{ steps.timestamp.outputs.timestamp }} .
-          docker tag ghcr.io/${{ github.repository_owner }}/hello-world:${{ steps.timestamp.outputs.timestamp }} ghcr.io/${{ github.repository_owner }}/hello-world:latest
+        run: docker build -t ghcr.io/singhisking100/hello-world .
 
       - name: Log in to GitHub Container Registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+        run: echo ${{ secrets.PAC_GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+              
 
       - name: Push Docker Image to GHCR
-        run: |
-          docker push ghcr.io/${{ github.repository_owner }}/hello-world:${{ steps.timestamp.outputs.timestamp }}
-          docker push ghcr.io/${{ github.repository_owner }}/hello-world:latest
+        run: docker push ghcr.io/singhisking100/hello-world
+
+
+
 
