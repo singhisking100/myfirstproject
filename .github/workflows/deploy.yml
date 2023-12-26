@@ -92,7 +92,6 @@ jobs:
           echo "Check Container Status"
           docker ps
 
-          echo "Try a Different Port"
-          docker run -p 8082:80 ghcr.io/singhisking100/hello-world:latest
+
 
         
