@@ -86,9 +86,7 @@ jobs:
 
       - name: Run Docker Container Locally
         run: |
-          CONTAINER_ID=$(docker run -d -p 8081:80 ghcr.io/singhisking100/hello-world:latest)
-
-          # Troubleshooting steps
+          CONTAINER_ID=$(docker run -d -p 55555:80 ghcr.io/singhisking100/hello-world:latest)
           echo "Check Container Status"
           docker ps
 
